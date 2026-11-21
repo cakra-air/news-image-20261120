@@ -21,6 +21,7 @@ def face(filename, pixels):
 
 
 F_NAVY_BIG = face("timesbd.ttf", 31)
+F_TITLE_BIG = face("timesbd.ttf", 36)
 F_NAVY_SUB = face("timesi.ttf", 13)
 F_KICKER = face("arialbd.ttf", 11)
 F_BANNER = face("arialbd.ttf", 13)
@@ -369,7 +370,7 @@ def art_podium(b, x0, y0, x1, y1):
 
 LEADS = [
     dict(zone="EUROPE", tag="UKRAINE", src="REUTERS · AP", venue="KYIV · DNIPRO RIVER",
-         banner="BRIDGES HIT", head="Nine dead as missiles hit Kyiv bridges",
+         banner="BRIDGES HIT", head="Eight dead as missiles hit Kyiv bridges",
          cap="Three Dnipro crossings hit. Two missiles and a drone land in Poland — NATO calls it a violation.",
          paint=art_bridges),
     dict(zone="MIDDLE EAST", tag="HOUTHI", src="REUTERS · AP", venue="RIYADH · SAUDI ARABIA",
@@ -450,13 +451,13 @@ CLOCK = [("00:00", CRIMSON, "Kyiv strikes"), ("06:00", OCEAN, "Poland violation"
 
 NUMBERS = [(226, "$93.5bn", "ANTHROPIC IPO — RECORD"),
            (398, "$4tn", "WIPED OFF NASDAQ"),
-           (568, "9", "KILLED IN KYIV"),
+           (568, "8", "KILLED ACROSS UKRAINE"),
            (744, "£17bn", "UK–EU DEAL BOOST"),
            (884, "26 yrs", "MEASLES-FREE ERA ENDS")]
 
-PINS = [(1, 30, 50), (2, 46, 24), (3, -74, 40), (4, -122, 38), (5, 151, -34),
-        (6, 4, 52), (7, 35, 32), (8, 28, 41), (9, 18, -2), (10, 77, 20),
-        (11, 31, 53), (12, -98, 40)]
+PINS = [(1, 30, 50), (2, 46, 24), (3, -74, 40), (4, 4, 52), (5, 30, 37),
+        (6, 19, 52), (7, -98, 40), (8, -122, 37), (9, 18, -2), (10, -84, 39),
+        (11, -150, 64)]
 
 
 def map_panel(b, x0, y0, x1, y1):
@@ -502,10 +503,10 @@ def map_panel(b, x0, y0, x1, y1):
         px, py = project(lon, lat)
         px = min(max(px, x0 + 9), x1 - 9)
         py = min(max(py, y0 + 9), y1 - 15)
-        dot_number(b, px, py, num, ZONE_COLOR.get(
-            ["EUROPE", "MIDDLE EAST", "AMERICAS", "AMERICAS", "OCEANIA", "EUROPE",
-             "MIDDLE EAST", "MIDDLE EAST", "AFRICA", "ASIA", "EUROPE", "AMERICAS"][num - 1], SLATE))
-    b.words((x0 + 7, y1 - 12), "1–12 = drawn stories · positions approximate", F_ART, (76, 84, 98))
+        zone = ["EUROPE", "MIDDLE EAST", "GLOBAL", "EUROPE", "GLOBAL", "EUROPE",
+                "AMERICAS", "GLOBAL", "GLOBAL", "AMERICAS", "AMERICAS"][num - 1]
+        dot_number(b, px, py, num, ZONE_COLOR.get(zone, SLATE))
+    b.words((x0 + 7, y1 - 12), "1–11 = drawn stories · positions approximate", F_ART, (76, 84, 98))
 
 
 def noise_field(seed=20261120):
@@ -537,23 +538,33 @@ def build(destination):
     b = Brush(page)
 
     # masthead
-    fade(b, (0, 0, EDGE, 96), (12, 26, 58), (28, 52, 94), 18)
-    soft_light(b, 906, 48, 40, (58, 92, 142), (16, 32, 64))
-    b.rect((0, 0, EDGE, 2), fill=AMBER)
+    fade(b, (0, 0, EDGE, 96), (10, 24, 54), (28, 54, 96), 18)
+    soft_light(b, 906, 48, 40, (58, 92, 142), (12, 28, 62))
+    for gx in range(0, EDGE, 32):
+        b.path([(gx, 0), (gx, 96)], fill=(18, 40, 74), width=1)
+    b.rect((0, 0, EDGE, 1), fill=AMBER)
     b.rect((15, 10, 100, 86), fill=WHITE)
     b.rect((15, 10, 100, 27), fill=CRIMSON)
     b.centred(57, 12, "FRIDAY", F_ART, WHITE)
     b.centred(57, 30, "20", F_NAVY_BIG, NAVY)
     b.centred(57, 70, "NOV 2026", F_ART, NAVY)
-    b.words((108, 20), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
-    b.path([(112, 56), (652, 56)], fill=AMBER, width=1)
-    b.words((112, 61), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
-    b.words((112, 77), "Friday 20 November 2026 — the day, in one image", F_NAVY_SUB,
-            (232, 212, 140))
-    little_globe(b, 706, 48, 24, AMBER)
-    b.words((744, 22), "3 LEADS · 8 STORIES", F_KICKER, AMBER)
-    b.words((744, 58), "24 BRIEFS · WORLD MAP", F_KICKER, (206, 220, 240))
-    b.rect((0, 96, EDGE, 99), fill=AMBER)
+    kicker = "• THE WORLD IN ONE PICTURE •"
+    b.words((112, 5), kicker, F_KICKER, AMBER)
+    b.path([(112, 19), (112 + b.width_of(kicker, F_KICKER), 19)], fill=AMBER, width=1)
+    b.words((110, 26), "WORLD NEWS", F_TITLE_BIG, WHITE)
+    after = 110 + b.width_of("WORLD NEWS ", F_TITLE_BIG)
+    b.words((after, 26), "20 NOV 2026", F_TITLE_BIG, AMBER)
+    b.words((112, 71), "TOP STORY", F_CAP, CRIMSON)
+    b.words((196, 71), "Eight dead as missiles hit Kyiv bridges", F_CAP, (240, 226, 180))
+    line_a, line_b = "3 LEADS · 8 STORIES", "24 BRIEFS · WORLD MAP"
+    right_edge = EDGE - 16
+    text_w = max(b.width_of(line_a, F_BANNER), b.width_of(line_b, F_BANNER))
+    text_x = right_edge - text_w
+    little_globe(b, text_x - 18 - 28, 48, 28, AMBER)
+    b.words((right_edge - b.width_of(line_a, F_BANNER), 24), line_a, F_BANNER, AMBER)
+    b.words((right_edge - b.width_of(line_b, F_BANNER), 56), line_b, F_BANNER,
+            (206, 220, 240))
+    b.rect((0, 97, EDGE, 98), fill=AMBER)
 
     # zone strip
     tally = ([item["zone"] for item in LEADS] + [card["zone"] for card in CARDS]
@@ -659,8 +670,8 @@ def build(destination):
             "Anthropic's first trading day (19 Nov) are background to today's markets and diplomacy.",
             F_TINY, (110, 40, 40))
     b.rect((0, 984, EDGE, EDGE), fill=(14, 28, 58))
-    b.rect((0, 984, EDGE, 986), fill=AMBER)
-    b.rect((0, 1022, EDGE, EDGE), fill=AMBER)
+    b.rect((0, 984, EDGE, 985), fill=AMBER)
+    b.rect((0, 1023, EDGE, EDGE), fill=AMBER)
     b.rect((16, 989, 34, 1017), fill=CRIMSON)
     b.centred(25, 997, "20", F_ART, WHITE)
     b.words((42, 987), "THE DAY IN WORLD NEWS · 20 NOVEMBER 2026", F_ART, (232, 214, 150))
