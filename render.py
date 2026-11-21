@@ -477,6 +477,14 @@ BRIEFS = [
     ("AFRICA", "South Africa: 581 women killed"),
     ("AMERICAS", "GTA VI sets $3.79bn sales record"),
     ("AMERICAS", "Grounded jets, Microsoft outage"),
+    ("EUROPE", "Europe warns of a Yalta-style carve-up"),
+    ("AMERICAS", "Trump postpones North Korea visit"),
+    ("AMERICAS", "Trump plans penalties for offshore AI data centres"),
+    ("GLOBAL", "S&P 500 sinks 3.7% in tech rout"),
+    ("GLOBAL", "China nuclear build-up 'hot and heavy'"),
+    ("AMERICAS", "Haiti raids a gang corridor"),
+    ("AMERICAS", "Brazil moves to protect Raoni's homeland"),
+    ("AMERICAS", "Mamdani plans to shut Rikers"),
 ]
 
 CLOCK = [("00:00", CRIMSON, "Kyiv strikes"), ("03:00", EMBER, "Akvan landfall"),
@@ -591,7 +599,7 @@ def build(destination):
     b.words((after, 26), "20 NOV 2026", F_TITLE_BIG, AMBER)
     b.words((112, 71), "TOP STORY", F_CAP, CRIMSON)
     b.words((196, 71), "Eight dead as missiles hit Kyiv bridges", F_CAP, (240, 226, 180))
-    line_a, line_b = "3 LEADS · 8 STORIES", "12 BRIEFS · WORLD MAP"
+    line_a, line_b = "3 LEADS · 8 STORIES", "20 BRIEFS · WORLD MAP"
     right_edge = EDGE - 16
     text_w = max(b.width_of(line_a, F_BANNER), b.width_of(line_b, F_BANNER))
     text_x = right_edge - text_w
@@ -685,14 +693,14 @@ def build(destination):
     # atlas and short takes
     b.rect((16, 772, 1008, 792), fill=NAVY)
     b.words((24, 776), "WHERE IT HAPPENED  /  ALSO ON FRIDAY", F_KICKER, AMBER)
-    b.words((700, 776), "12 MORE STORIES · 20 NOV 2026", F_TAG, (206, 220, 240))
-    map_panel(b, 16, 796, 306, 954)
+    b.words((700, 776), "20 MORE STORIES · 20 NOV 2026", F_TAG, (206, 220, 240))
+    map_panel(b, 16, 796, 200, 954)
     for k, (zone, text) in enumerate(BRIEFS):
-        col, row = k // 6, k % 6
-        x = 330 + col * 340
-        y = 800 + row * 25
-        b.oval((x, y + 2, x + 8, y + 10), fill=ZONE_COLOR.get(zone, SLATE))
-        b.words((x + 16, y), crop_line(f"{k + 1:02d} · {text}", F_BANNER, 315, b),
+        col, row = k // 10, k % 10
+        x = 220 + col * 400
+        y = 796 + row * 16
+        b.oval((x, y + 3, x + 7, y + 10), fill=ZONE_COLOR.get(zone, SLATE))
+        b.words((x + 14, y), crop_line(f"{k + 1:02d} · {text}", F_BANNER, 370, b),
                 F_BANNER, INK)
 
     # provenance band and footer
@@ -714,7 +722,7 @@ def build(destination):
     b.oval((690, 996, 716, 1016), fill=(32, 62, 104), outline=AMBER, width=1)
     b.path([(703, 1000), (703, 1004), (707, 1007)], fill=AMBER, width=1)
     b.words((722, 997), "ALL TIMES UTC", F_ART, (206, 220, 240))
-    b.words((846, 987), "23 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
+    b.words((846, 987), "31 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
     b.words((846, 999), "BUILT BY AN AI AGENT", F_ART, (176, 196, 224))
     b.words((846, 1009), "MAKE.FUN / NEWS-IMAGE-20261120", F_ART, (176, 196, 224))
 
