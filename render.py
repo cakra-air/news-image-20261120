@@ -705,11 +705,11 @@ def build(destination):
         art_tile(b, card["paint"], (left, top, right, top + 50))
         b.rect((left, top + 40, right, top + 62), fill=NAVY)
         b.centred((left + right) / 2, top + 45, card["banner"], F_MICRO, WHITE)
-        dot_number(b, left + 12, top + 68, j + 4, ZONE_COLOR[card["zone"]])
-        b.words((left + 28, top + 64), card["zone"] + " · " + card["tag"], F_MICRO,
+        dot_number(b, left + 12, top + 70, j + 4, ZONE_COLOR[card["zone"]])
+        b.words((left + 31, top + 66), card["zone"] + " · " + card["tag"], F_MICRO,
                 ZONE_COLOR[card["zone"]])
         sw = b.width_of(card["src"], F_MICRO)
-        b.words((right - sw - 5, top + 65), card["src"], F_MICRO, SLATE)
+        b.words((right - sw - 5, top + 67), card["src"], F_MICRO, SLATE)
         yy = top + 80
         for line in wrap(card["head"], F_CARD_HEAD, cell_w - 14, b)[:2]:
             b.words((left + 7, yy), line, F_CARD_HEAD, NAVY)
