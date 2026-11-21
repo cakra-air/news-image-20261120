@@ -34,6 +34,7 @@ F_STAT = face("arialbd.ttf", 18)
 F_BRIEF = face("arialbd.ttf", 10)
 F_TAG = face("arialbd.ttf", 10)
 F_ART = face("arialbd.ttf", 8)
+F_BADGE_TWO = face("arialbd.ttf", 6)
 
 INK = (24, 29, 40)
 NAVY = (17, 32, 66)
@@ -148,10 +149,11 @@ def crop_line(text, fnt, room, brush):
 
 def dot_number(brush, x, y, number, color):
     label = str(number)
-    radius = 7 if len(label) == 1 else 11
-    brush.oval((x - radius, y - radius, x + radius, y + radius),
-               fill=color, outline=WHITE, width=1)
-    brush.centred(x, y - 5, label, F_ART, WHITE)
+    brush.oval((x - 7, y - 7, x + 7, y + 7), fill=color, outline=WHITE, width=1)
+    if len(label) == 1:
+        brush.centred(x, y - 5, label, F_ART, WHITE)
+    else:
+        brush.centred(x, y - 4, label, F_BADGE_TWO, WHITE)
 
 
 def art_tile(host, painter, box):
@@ -704,10 +706,10 @@ def build(destination):
         b.rect((left, top + 40, right, top + 62), fill=NAVY)
         b.centred((left + right) / 2, top + 45, card["banner"], F_MICRO, WHITE)
         dot_number(b, left + 12, top + 64, j + 4, ZONE_COLOR[card["zone"]])
-        b.words((left + 28, top + 64), card["zone"] + " · " + card["tag"], F_MICRO,
+        b.words((left + 28, top + 60), card["zone"] + " · " + card["tag"], F_MICRO,
                 ZONE_COLOR[card["zone"]])
         sw = b.width_of(card["src"], F_MICRO)
-        b.words((right - sw - 5, top + 65), card["src"], F_MICRO, SLATE)
+        b.words((right - sw - 5, top + 61), card["src"], F_MICRO, SLATE)
         yy = top + 80
         for line in wrap(card["head"], F_CARD_HEAD, cell_w - 14, b)[:2]:
             b.words((left + 7, yy), line, F_CARD_HEAD, NAVY)
