@@ -147,8 +147,11 @@ def crop_line(text, fnt, room, brush):
 
 
 def dot_number(brush, x, y, number, color):
-    brush.oval((x - 7, y - 7, x + 7, y + 7), fill=color, outline=WHITE, width=1)
-    brush.centred(x, y - 5, str(number), F_ART, WHITE)
+    label = str(number)
+    radius = 7 if len(label) == 1 else 11
+    brush.oval((x - radius, y - radius, x + radius, y + radius),
+               fill=color, outline=WHITE, width=1)
+    brush.centred(x, y - 5, label, F_ART, WHITE)
 
 
 def art_tile(host, painter, box):
@@ -700,8 +703,8 @@ def build(destination):
         art_tile(b, card["paint"], (left, top, right, top + 50))
         b.rect((left, top + 40, right, top + 62), fill=NAVY)
         b.centred((left + right) / 2, top + 45, card["banner"], F_MICRO, WHITE)
-        dot_number(b, left + 6, top + 64, j + 4, ZONE_COLOR[card["zone"]])
-        b.words((left + 21, top + 64), card["zone"] + " · " + card["tag"], F_MICRO,
+        dot_number(b, left + 12, top + 64, j + 4, ZONE_COLOR[card["zone"]])
+        b.words((left + 28, top + 64), card["zone"] + " · " + card["tag"], F_MICRO,
                 ZONE_COLOR[card["zone"]])
         sw = b.width_of(card["src"], F_MICRO)
         b.words((right - sw - 5, top + 65), card["src"], F_MICRO, SLATE)
