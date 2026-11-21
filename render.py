@@ -149,6 +149,17 @@ def dot_number(brush, x, y, number, color):
     brush.centred(x, y - 5, str(number), F_ART, WHITE)
 
 
+def little_globe(brush, cx, cy, radius, tone):
+    brush.oval((cx - radius, cy - radius, cx + radius, cy + radius),
+               fill=(32, 62, 104), outline=tone, width=1)
+    brush.arc((cx - radius * 0.62, cy - radius, cx + radius * 0.62, cy + radius),
+              90, 270, tone, 1)
+    brush.arc((cx - radius * 0.62, cy - radius, cx + radius * 0.62, cy + radius),
+              -90, 90, tone, 1)
+    brush.path([(cx - radius, cy), (cx + radius, cy)], fill=tone, width=1)
+    brush.path([(cx, cy - radius), (cx, cy + radius)], fill=tone, width=1)
+
+
 def art_bridges(b, x0, y0, x1, y1):
     fade(b, (x0, y0, x1, y1), (34, 52, 84), (12, 22, 44))
     soft_light(b, x0 + 190, y0 + 30, 40, (150, 170, 205), (38, 56, 88))
@@ -517,16 +528,20 @@ def build(destination):
     b = Brush(page)
 
     # masthead
-    b.rect((0, 0, EDGE, 96), fill=NAVY)
+    fade(b, (0, 0, EDGE, 96), (12, 26, 58), (28, 52, 94), 18)
+    soft_light(b, 906, 48, 40, (58, 92, 142), (16, 32, 64))
     b.rect((15, 10, 100, 86), fill=WHITE)
-    b.words((25, 14), "NOV", F_KICKER, CRIMSON)
-    b.words((25, 29), "20", F_NAVY_BIG, NAVY)
-    b.words((22, 68), "FRI · 2026", F_ART, NAVY)
-    b.words((112, 13), "THE DAY IN WORLD NEWS", F_KICKER, AMBER)
-    b.words((108, 28), "Friday 20 November 2026", F_NAVY_BIG, WHITE)
-    b.words((112, 77), "Every item below was reported on Friday 20 November 2026.", F_NAVY_SUB,
-            (206, 220, 240))
-    b.words((648, 14), "3 LEADS · 8 STORIES · 24 BRIEFS · MAP", F_KICKER, AMBER)
+    b.rect((15, 10, 100, 27), fill=CRIMSON)
+    b.centred(57, 12, "FRIDAY", F_ART, WHITE)
+    b.centred(57, 30, "20", F_NAVY_BIG, NAVY)
+    b.centred(57, 70, "NOV 2026", F_ART, NAVY)
+    b.words((112, 6), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
+    b.words((108, 24), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
+    b.words((112, 66), "Friday 20 November 2026 — the day, in one image", F_NAVY_SUB,
+            (232, 212, 140))
+    little_globe(b, 706, 48, 24, AMBER)
+    b.words((744, 22), "3 LEADS · 8 STORIES", F_KICKER, AMBER)
+    b.words((744, 58), "24 BRIEFS · WORLD MAP", F_KICKER, (206, 220, 240))
     b.rect((0, 96, EDGE, 99), fill=AMBER)
 
     # zone strip
@@ -632,8 +647,19 @@ def build(destination):
     b.words((118, 988),
             "Anthropic's first trading day (19 Nov) are background to today's markets and diplomacy.",
             F_TINY, (110, 40, 40))
-    b.rect((0, 1000, EDGE, EDGE), fill=NAVY)
-    b.rect((0, 1000, EDGE, 1001), fill=(206, 168, 83))
+    b.rect((0, 1000, EDGE, EDGE), fill=(14, 28, 58))
+    b.rect((0, 1000, EDGE, 1001), fill=AMBER)
+    b.rect((16, 1005, 34, 1021), fill=CRIMSON)
+    b.centred(25, 1007, "20", F_ART, WHITE)
+    b.words((42, 1004), "THE DAY IN WORLD NEWS · 20 NOVEMBER 2026", F_ART, (232, 214, 150))
+    b.words((42, 1015), "REUTERS · AP · BBC · UN · NPR · GUARDIAN", F_ART, (176, 196, 224))
+    little_globe(b, 560, 1012, 8, AMBER)
+    b.words((576, 1007), "7 ZONES", F_ART, (206, 220, 240))
+    b.oval((690, 1006, 716, 1020), fill=(32, 62, 104), outline=AMBER, width=1)
+    b.path([(703, 1009), (703, 1013), (707, 1015)], fill=AMBER, width=1)
+    b.words((722, 1007), "ALL TIMES UTC", F_ART, (206, 220, 240))
+    b.words((846, 1004), "35 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
+    b.words((846, 1015), "BUILT BY AN AI AGENT", F_ART, (176, 196, 224))
 
     flat = page.resize((EDGE, EDGE), Image.LANCZOS)
     texture = noise_field()
