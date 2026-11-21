@@ -545,10 +545,10 @@ def build(destination):
     b.centred(57, 12, "FRIDAY", F_ART, WHITE)
     b.centred(57, 30, "20", F_NAVY_BIG, NAVY)
     b.centred(57, 70, "NOV 2026", F_ART, NAVY)
-    b.words((112, 5), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
-    b.path([(112, 19), (652, 19)], fill=AMBER, width=1)
-    b.words((108, 26), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
-    b.words((112, 66), "Friday 20 November 2026 — the day, in one image", F_NAVY_SUB,
+    b.words((108, 20), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
+    b.path([(112, 56), (652, 56)], fill=AMBER, width=1)
+    b.words((112, 61), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
+    b.words((112, 77), "Friday 20 November 2026 — the day, in one image", F_NAVY_SUB,
             (232, 212, 140))
     little_globe(b, 706, 48, 24, AMBER)
     b.words((744, 22), "3 LEADS · 8 STORIES", F_KICKER, AMBER)
