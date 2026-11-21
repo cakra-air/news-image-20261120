@@ -1,7 +1,7 @@
-﻿"""World News - Friday 20 November 2026. Front page, v2.
+﻿"""World News - Friday 20 November 2026. Front page, original edition.
 
 Deterministic, offline. Writes entry.png via main.py's copy (or $MAKEFUN_OUTPUT).
-Original authored content for the 20 Nov 2026 bounty (not copied from any other entry).
+All content and illustrations authored for this entry; not copied from any other entry.
 """
 import io
 import math
@@ -75,7 +75,7 @@ def one_line(t, ft, mw, d):
     s=t
     while tlen(d,s,ft)>mw and len(s)>4:
         s=s[:-2]
-    return s.rstrip()+"â€¦" if s!=t else s
+    return s.rstrip()+"…" if s!=t else s
 
 def txt(d,x,y,s,ft,col):
     if ft in SPACED and len(s)>1:
@@ -131,247 +131,177 @@ def badge(d,x,y,n,col,size=12):
     s=str(n); tw=tlen(d,s,F_MICRO)
     txt(d,x+size/2-tw/2,y+2,s,F_MICRO,WHITE)
 
-# ---------- illustrations (flat, deterministic) ----------
-def art_summit(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(26,44,74),(58,80,110))
-    glow(d,x0+160,y0+58,48,(126,158,198),(32,52,84))
-    for i in range(7):
-        bx=x0+6+i*46
-        d.rectangle([bx,y0+6,bx+42,y0+74],fill=(34,56,88))
-        d.rectangle([bx+2,y0+8,bx+4,y0+72],fill=(66,92,128))
-        d.rectangle([bx+38,y0+8,bx+40,y0+72],fill=(22,40,68))
-    def apec_flag(fx,fy,w=36,h=24):
-        d.line([(fx,fy-2),(fx,fy+44)],fill=(198,206,218),width=2)
-        d.ellipse([fx-2,fy-4,fx+2,fy],fill=(226,190,96))
-        d.rectangle([fx+2,fy,fx+2+w,fy+h],fill=(42,104,168))
-        d.ellipse([fx+7,fy+5,fx+15,fy+13],outline=(232,240,248),width=1)
-        txt(d,fx+18,fy+7,"APEC",f("arialbd.ttf",8),WHITE)
-    for k in range(6):
-        apec_flag(x0+18+k*48,y0+30)
-    d.rectangle([x0+18,y0+8,x1-18,y0+26],fill=(42,104,168))
-    d.rectangle([x0+18,y0+8,x1-18,y0+9],fill=(232,190,96))
-    bt="APEC 2026  Â·  SHENZHEN SUMMIT"
-    bw=tlen(d,bt,f("arialbd.ttf",10))
-    txt(d,x0+(x1-x0-bw)/2,y0+12,bt,f("arialbd.ttf",10),WHITE)
-    d.ellipse([x0+10,y1-48,x1-10,y1-12],fill=(34,48,66))
-    d.ellipse([x0+20,y1-44,x1-20,y1-16],fill=(58,74,94))
-    people=[(x0+66,"US","us",(226,176,136),(232,200,116),(190,44,52),(30,40,60)),
-            (x0+160,"RU","ru",(230,198,172),(64,60,62),(56,96,164),(34,42,62)),
-            (x0+254,"CN","cn",(220,176,140),(44,40,42),(190,44,52),(30,36,50))]
-    for cx,label,kind,skin,hair,tie,suit in people:
-        d.polygon([(cx-26,y1-12),(cx-22,y1-40),(cx+22,y1-40),(cx+26,y1-12)],fill=suit)
-        d.polygon([(cx-24,y1-40),(cx-14,y1-48),(cx+14,y1-48),(cx+24,y1-40)],fill=mix(suit,(120,132,150),0.35))
-        d.polygon([(cx-9,y1-39),(cx+9,y1-39),(cx+7,y1-20),(cx-7,y1-20)],fill=(242,244,248))
-        d.polygon([(cx-3,y1-38),(cx+3,y1-38),(cx+2,y1-24),(cx,y1-19),(cx-2,y1-24)],fill=tie)
-        d.rectangle([cx-4,y1-46,cx+4,y1-36],fill=skin)
-        d.ellipse([cx-11,y1-64,cx+11,y1-40],fill=skin)
-        d.ellipse([cx-13,y1-54,cx-9,y1-47],fill=skin)
-        d.ellipse([cx+9,y1-54,cx+13,y1-47],fill=skin)
-        if kind=="us":
-            d.pieslice([cx-12,y1-66,cx+12,y1-44],180,360,fill=hair)
-            d.polygon([(cx-11,y1-56),(cx+11,y1-56),(cx+8,y1-62),(cx-7,y1-64)],fill=hair)
-        elif kind=="ru":
-            d.pieslice([cx-11,y1-64,cx+11,y1-46],190,350,fill=hair)
-            d.rectangle([cx-6,y1-64,cx+6,y1-61],fill=skin)
-        else:
-            d.pieslice([cx-11,y1-64,cx+11,y1-45],175,365,fill=hair)
-            d.polygon([(cx-10,y1-58),(cx-2,y1-63),(cx+10,y1-57)],fill=hair)
-        d.rectangle([cx-7,y1-54,cx-4,y1-53],fill=hair)
-        d.rectangle([cx+4,y1-54,cx+7,y1-53],fill=hair)
-        d.ellipse([cx-6,y1-52,cx-4,y1-50],fill=(56,50,48))
-        d.ellipse([cx+4,y1-52,cx+6,y1-50],fill=(56,50,48))
-        d.line([(cx-3,y1-45),(cx+3,y1-45)],fill=(158,98,82),width=1)
-        d.rectangle([cx-20,y1-30,cx+20,y1-14],fill=(16,26,42))
-        d.rectangle([cx-20,y1-30,cx+20,y1-29],fill=(206,168,83))
-        fx,fy=cx-16,y1-27
-        if kind=="us":
-            d.rectangle([fx,fy,fx+12,fy+8],fill=(242,244,248))
-            for r in range(4):
-                d.rectangle([fx,fy+r*2,fx+12,fy+r*2+1],fill=(190,44,52))
-            d.rectangle([fx,fy,fx+6,fy+4],fill=(36,64,124))
-        elif kind=="ru":
-            d.rectangle([fx,fy,fx+12,fy+3],fill=(246,246,244))
-            d.rectangle([fx,fy+3,fx+12,fy+6],fill=(56,96,164))
-            d.rectangle([fx,fy+6,fx+12,fy+9],fill=(196,44,56))
-        else:
-            d.rectangle([fx,fy,fx+12,fy+9],fill=(222,42,48))
-            d.ellipse([fx+2,fy+2,fx+5,fy+5],fill=(250,214,72))
-        txt(d,cx+2,y1-26,label,F_MICRO,WHITE)
+# ---------- illustrations (original, flat) ----------
+def art_trade(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(30,60,90),(60,100,140))
+    glow(d,x0+80,y0+40,40,(120,180,220),(40,70,100))
+    # two flags shaking hands
+    d.rectangle([x0+20,y0+10,x0+70,y0+40],fill=(36,72,152))
+    d.rectangle([x0+20,y0+10,x0+70,y0+20],fill=(244,244,242))
+    d.rectangle([x0+20,y0+20,x0+70,y0+30],fill=(224,56,64))
+    d.rectangle([x0+80,y0+10,x0+130,y0+40],fill=(255,153,51))
+    d.rectangle([x0+80,y0+10,x0+130,y0+20],fill=(255,255,255))
+    d.rectangle([x0+80,y0+20,x0+130,y0+30],fill=(19,136,8))
+    # handshake
+    d.polygon([(x0+140,y0+70),(x0+170,y0+50),(x0+200,y0+70),(x0+170,y0+90)],fill=(220,180,140))
+    d.polygon([(x0+150,y0+60),(x0+170,y0+50),(x0+160,y0+75)],fill=(180,140,110))
+    d.rectangle([x0+10,y0+90,x1-10,y1-6],fill=(200,210,220))
+    txt(d,x0+10,y0+92,"EU-INDIA TRADE PACT",F_MICRO,(40,60,90))
 
-def art_gulf(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(222,192,148),(250,228,190))
-    glow(d,x0+72,y0+38,36,(255,236,166),(242,216,174))
-    d.polygon([(x0,y0+58),(x0+72,y0+28),(x0+152,y0+56),(x1,y0+40),(x1,y0+92),(x0,y0+92)],fill=(214,184,138))
-    d.polygon([(x0,y0+78),(x0+92,y0+50),(x0+184,y0+76),(x1,y0+64),(x1,y1),(x0,y1)],fill=(196,162,118))
-    d.rectangle([x0+18,y0+94,x1-10,y1-6],fill=(172,154,128))
-    d.line([(x0+30,y1-14),(x1-24,y1-14)],fill=(238,232,216),width=2)
-    for bx in (x0+24,x0+96,x0+168):
-        d.rectangle([bx,y0+98,bx+44,y0+120],fill=(142,136,128))
-        d.polygon([(bx-3,y0+98),(bx+22,y0+86),(bx+47,y0+98)],fill=(170,162,150))
-    d.line([(x1-46,y1-14),(x1-46,y0+54)],fill=(72,78,84),width=2)
-    d.pieslice([x1-70,y0+30,x1-22,y0+78],195,345,fill=(98,106,114),outline=(66,72,80),width=2)
-    d.line([(x1-44,y0+30),(x0+96,y1-20)],fill=(240,166,86),width=5)
-    d.line([(x1-44,y0+30),(x0+96,y1-20)],fill=RED,width=2)
-    glow(d,x1-44,y0+30,17,(255,216,112),(242,192,152))
-    for cx,cy in [(x0+96,y1-20),(x0+126,y0+44)]:
-        glow(d,cx,cy,15,(255,218,112),(244,200,158))
-        d.ellipse([cx-4,cy-4,cx+4,cy+4],fill=(255,246,204))
-    txt(d,x0+10,y0+8,"KUWAIT",F_MICRO,(118,84,50))
-
-def art_ipo(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(12,34,58),(28,72,104))
-    for gx in range(0,326,40):
-        d.line([(x0+gx,y0),(x0+gx,y1)],fill=(44,88,120),width=1)
-    for gy in range(0,140,28):
-        d.line([(x0,y0+gy),(x1,y0+gy)],fill=(44,88,120),width=1)
-    for i in range(14):
-        bx=x0+16+i*21; base=y0+112-i*3
-        d.line([(bx,base-14),(bx,base+10)],fill=(120,170,200),width=1)
-        d.rectangle([bx-3,base-8,bx+3,base+4],fill=(80,190,140) if i%3 else (220,96,96))
-    pts=[(x0+16,y0+116),(x0+66,y0+98),(x0+108,y0+104),(x0+152,y0+72),(x0+196,y0+80),(x0+240,y0+44),(x0+306,y0+22)]
-    d.line([p for p in pts],fill=(236,190,92),width=6)
-    d.line([p for p in pts],fill=(255,224,150),width=2)
-    for px,py in pts:
-        d.ellipse([px-3,py-3,px+3,py+3],fill=(255,238,182))
-    d.rectangle([x0+14,y0+10,x0+96,y0+38],fill=(16,44,72))
-    d.rectangle([x0+14,y0+10,x0+96,y0+11],fill=GOLD)
-    txt(d,x0+22,y0+16,"ANT",f("arialbd.ttf",14),WHITE)
-    txt(d,x0+62,y0+18,"$83",f("arialbd.ttf",11),GOLD)
-    txt(d,x0+108,y0+14,"IPO  81.3bn",f("arialbd.ttf",10),(196,220,238))
-
-def art_drones(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(12,26,54),(36,58,92))
-    stars(d,x0,y0,x1,y1,45,5)
-    for i,ht in enumerate([20,34,26,40,18]):
-        bx=x0+10+i*46
-        d.rectangle([bx,y1-24-ht,bx+30,y1-24],fill=(40,60,92))
-        d.rectangle([bx+2,y1-22-ht,bx+4,y1-24],fill=(78,104,140))
-        for wy in range(y1-22-ht,y1-28,7):
-            d.rectangle([bx+6,wy,bx+10,wy+2],fill=(232,204,120))
-            d.rectangle([bx+18,wy,bx+22,wy+2],fill=(232,204,120))
-    d.line([(x1-10,y0+10),(x0+60,y1-28)],fill=(238,110,44),width=4)
-    d.line([(x1-10,y0+10),(x0+60,y1-28)],fill=RED,width=2)
-    for cx,cy in [(x0+70,y1-30),(x1-40,y0+20)]:
-        glow(d,cx,cy,14,(255,220,110),(200,70,60))
-        d.ellipse([cx-3,cy-3,cx+3,cy+3],fill=(255,242,196))
-    d.polygon([(x0+150,y0+8),(x0+172,y0+4),(x0+168,y0+18),(x0+148,y0+20)],fill=(232,238,248))
-    d.line([(x0+158,y0+10),(x0+162,y0+18)],fill=(150,160,180),width=1)
-
-def art_france_ukraine(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(238,243,249),(208,222,238))
-    d.rectangle([x0+12,y0+8,x0+32,y0+36],fill=(36,72,152))
-    d.rectangle([x0+32,y0+8,x0+52,y0+36],fill=(244,244,242))
-    d.rectangle([x0+52,y0+8,x0+72,y0+36],fill=(224,56,64))
-    d.rectangle([x0+80,y0+8,x0+100,y0+24],fill=(72,138,206))
-    d.rectangle([x0+80,y0+24,x0+100,y0+36],fill=(250,214,72))
-    d.polygon([(x0+112,y0+44),(x0+118,y0+28),(x0+144,y0+28),(x0+150,y0+44)],fill=(96,110,124))
-    d.ellipse([x0+116,y0+18,x0+146,y0+30],fill=(112,126,140))
-    d.rectangle([x0+130,y0+6,x0+140,y0+18],fill=(70,84,98))
-    txt(d,x0+12,y0+40,"ADVISORY MISSION",F_MICRO,(70,80,96))
-
-def art_court(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(242,236,220),(214,204,184))
-    d.polygon([(x0+12,y0+18),(x0+108,y0+6),(x0+204,y0+18)],fill=(168,150,124))
-    for i in range(4):
-        bx=x0+26+i*42
-        d.rectangle([bx,y0+16,bx+12,y1-8],fill=(164,146,120))
-        d.rectangle([bx+1,y0+17,bx+3,y1-9],fill=(196,180,152))
-    d.rectangle([x0+18,y1-14,x1-14,y1-8],fill=(138,120,96))
-    cx=x1-48; cy=y0+28
-    d.line([(cx,cy),(cx,cy+26)],fill=(64,58,48),width=2)
-    d.line([(cx-22,cy),(cx+22,cy)],fill=(64,58,48),width=2)
-    for sx in (cx-22,cx+22):
-        d.line([(sx,cy),(sx,cy+10)],fill=(64,58,48),width=1)
-        d.ellipse([sx-7,cy+10,sx+7,cy+22],outline=(64,58,48),width=2)
-    d.ellipse([cx-4,cy-4,cx+4,cy+4],fill=(196,168,72))
-
-def art_game(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(126,58,164),(86,36,120))
-    glow(d,x0+120,y0+26,25,(198,110,220),(120,52,158))
-    d.ellipse([x0+70,y0+8,x0+170,y0+52],fill=(244,246,250))
-    d.ellipse([x0+74,y0+11,x0+166,y0+48],outline=(206,212,226),width=1)
-    for cx,cy in [(x0+94,y0+26),(x0+146,y0+26)]:
-        d.rectangle([cx-10,cy-4,cx+10,cy+4],fill=(116,56,148))
-        d.rectangle([cx-2,cy-12,cx+2,cy+12],fill=(116,56,148))
-    for k,(cx,cy) in enumerate([(x0+96,y0+42),(x0+112,y0+36),(x0+130,y0+36),(x0+146,y0+42)]):
-        c=[(220,80,120),(240,180,60),(80,170,220),(120,200,120)][k]
-        d.ellipse([cx-4,cy-4,cx+4,cy+4],fill=c)
-    txt(d,x0+8,y0+40,"ON SALE AFTER 13 YEARS",F_MICRO,WHITE)
-
-def art_energy(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(252,240,212),(240,214,168))
-    glow(d,x1-28,y0+24,22,(255,236,160),(250,224,178))
-    d.ellipse([x1-46,y0+8,x1-10,y0+42],fill=(244,176,72))
-    d.line([(x0+30,y1-8),(x0+30,y0+14)],fill=(66,72,80),width=3)
-    d.polygon([(x0+30,y0+14),(x0+48,y1-8),(x0+12,y1-8)],fill=(90,96,108))
-    for k in range(3):
-        d.line([(x0+20+k*10,y1-12),(x0+40+k*10,y0+26)],fill=(152,158,168),width=1)
-    d.line([(x0+64,y1-12),(x1-8,y1-12)],fill=(32,92,148),width=4)
-    for k in range(3):
-        d.arc([x0+72+k*36,y1-24,x0+104+k*36,y1-2],200,340,fill=(32,92,148),width=2)
-
-def art_fed(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(242,245,248),(218,228,236))
-    d.polygon([(x0+18,y0+34),(x0+40,y0+18),(x0+62,y0+34)],fill=(116,128,142))
-    for i in range(4):
-        d.rectangle([x0+20+i*12,y0+34,x0+27+i*12,y0+52],fill=(152,160,172))
-        d.rectangle([x0+21+i*12,y0+35,x0+23+i*12,y0+51],fill=(186,194,204))
-    d.rectangle([x0+14,y0+52,x0+68,y0+57],fill=(116,128,142))
-    d.line([(x0+86,y0+16),(x0+120,y0+28),(x0+146,y0+22),(x1-8,y0+40)],fill=RED,width=3)
-    d.polygon([(x1-8,y0+40),(x1-18,y0+34),(x1-18,y0+46)],fill=RED)
-    txt(d,x0+82,y0+40,"MORE HIKES",F_SM,RED)
-
-def art_cyclone(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(208,232,242),(236,244,240))
-    d.polygon([(x0+10,y0+10),(x0+130,y0+24),(x0+110,y1),(x0,y1)],fill=(202,218,212))
-    txt(d,x0+12,y0+6,"INDIA",F_MICRO,(66,86,66))
-    txt(d,x0+46,y0+22,"ODISHA",F_MICRO,(56,76,56))
-    glow(d,x1-60,y0+26,26,(150,206,236),(214,234,242))
-    for r in (6,10,14,18,22):
-        d.arc([x1-60-r,y0+26-r,x1-60+r,y0+26+r],r*8,r*8+220,fill=(36,96,148),width=2)
-    d.ellipse([x1-64,y0+22,x1-56,y0+30],fill=(24,72,124))
-
-def art_ebola(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(222,238,236),(188,218,214))
-    d.line([(x0+40,y1-8),(x0+40,y0+18)],fill=(70,94,100),width=4)
-    d.line([(x0+28,y1-8),(x0+52,y1-8)],fill=(70,94,100),width=3)
-    d.rectangle([x0+30,y0+10,x0+50,y0+24],fill=(92,120,124))
-    d.ellipse([x0+34,y0+6,x0+46,y0+16],fill=(150,182,184))
-    for cx,cy,r in [(x0+96,y0+14,7),(x0+130,y0+30,9),(x0+164,y0+16,6),(x0+200,y0+32,8)]:
-        d.ellipse([cx-r,cy-r,cx+r,cy+r],fill=(196,88,72))
-        for k in range(6):
-            a=k*math.pi/3
-            d.line([(cx+math.cos(a)*r,cy+math.sin(a)*r),(cx+math.cos(a)*(r+4),cy+math.sin(a)*(r+4))],fill=(196,88,72),width=1)
-    d.rectangle([x1-34,y0+26,x1-10,y0+32],fill=(240,244,242))
-    d.rectangle([x1-26,y0+18,x1-20,y0+40],fill=(240,244,242))
-    txt(d,x0+10,y0+42,"VACCINE TRIALS",F_MICRO,(56,86,84))
-
-def art_gaza(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(198,228,240),(224,234,210))
-    d.rectangle([x0,y0+18,x1,y1],fill=(212,226,204))
+def art_election(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(240,236,220),(210,200,180))
+    # ballot box
+    d.rectangle([x0+60,y0+40,x0+160,y0+110],fill=(60,70,80))
+    d.rectangle([x0+60,y0+40,x0+160,y0+48],fill=(200,180,60))
+    d.rectangle([x0+95,y0+20,x0+125,y0+42],fill=(230,220,200))
+    # ballot paper
+    d.rectangle([x0+100,y0+22,x0+120,y0+38],fill=(250,248,240))
+    d.line([(x0+103,y0+26),(x0+117,y0+26)],fill=(40,40,40),width=1)
+    d.line([(x0+103,y0+30),(x0+117,y0+30)],fill=(40,40,40),width=1)
+    d.line([(x0+103,y0+34),(x0+117,y0+34)],fill=(40,40,40),width=1)
+    # tally marks
     for i in range(5):
-        d.rectangle([x0+16+i*40,y0+20,x0+38+i*40,y0+38],fill=(190,204,180))
-    d.line([(x0+20,y0+34),(x1-20,y0+34)],fill=RED,width=3)
-    d.rectangle([x1-70,y0+4,x1-20,y0+24],fill=(232,202,64))
-    txt(d,x1-66,y0+8,"YELLOW LINE",F_MICRO,(80,70,30))
-    d.polygon([(x0+40,y0+42),(x0+76,y0+42),(x0+84,y1-4),(x0+34,y1-4)],fill=(86,98,74))
-    d.ellipse([x0+46,y0+44,x0+58,y0+52],fill=(120,132,102))
+        bx=x0+20+i*26
+        d.line([(bx,y0+95),(bx,y0+125)],fill=(40,40,40),width=2)
+    d.line([(x0+20,y0+95),(x0+124,y0+125)],fill=(40,40,40),width=2)
+    txt(d,x0+10,y0+8,"PENNSYLVANIA RECOUNT",F_MICRO,(80,70,50))
 
-def art_nsa(d,x0,y0,x1,y1):
-    vg(d,x0,y0,x1,y1,(18,30,48),(44,64,88))
+def art_strait(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(180,210,230),(140,180,210))
+    # water
+    d.rectangle([x0,y0+60,x1,y1],fill=(120,170,200))
     for i in range(4):
-        bx=x0+14+i*44
-        d.rectangle([bx,y0+16,bx+34,y1],fill=(30,44,64))
-        d.rectangle([bx+2,y0+18,bx+32,y1-2],outline=(70,92,116),width=1)
-        for k in range(4):
-            wy=y0+22+k*7
-            d.rectangle([bx+5,wy,bx+18,wy+3],fill=(70,120,150) if k%2 else (46,80,108))
-            d.ellipse([bx+24,wy,bx+27,wy+3],fill=(220,90,80) if i==1 else (90,180,140))
-    d.line([(x0+40,y0+8),(x0+84,y0+8)],fill=(200,80,72),width=2)
-    d.line([(x0+92,y0+8),(x0+150,y0+8)],fill=(200,80,72),width=2)
-    d.polygon([(x0+88,y0+4),(x0+94,y0+8),(x0+88,y0+12)],fill=(200,80,72))
-    d.rectangle([x0+122,y0+2,x1-10,y0+14],fill=(150,36,42))
-    txt(d,x0+126,y0+4,"NETWORK DOWN",F_MICRO,WHITE)
+        d.line([(x0,y0+70+i*12),(x1,y0+70+i*12)],fill=(100,150,180),width=1)
+    # two ships facing
+    d.polygon([(x0+20,y0+50),(x0+80,y0+40),(x0+80,y0+70),(x0+20,y0+60)],fill=(60,70,90))
+    d.rectangle([x0+45,y0+30,x0+55,y0+42],fill=(200,60,60))
+    d.polygon([(x1-20,y0+50),(x1-80,y0+40),(x1-80,y0+70),(x1-20,y0+60)],fill=(80,90,70))
+    d.rectangle([x1-55,y0+30,x1-45,y0+42],fill=(60,120,60))
+    # island
+    d.ellipse([x0+130,y0+80,x0+190,y0+100],fill=(200,190,160))
+    txt(d,x0+10,y0+8,"TAIWAN STRAIT",F_MICRO,(40,60,80))
+
+def art_ceasefire(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(200,220,200),(170,200,170))
+    d.rectangle([x0,y0+30,x1,y1],fill=(180,200,170))
+    for i in range(4):
+        d.rectangle([x0+10+i*50,y0+35,x0+45+i*50,y0+55],fill=(160,180,150))
+    d.line([(x0+20,y0+50),(x1-20,y0+50)],fill=(200,60,60),width=3)
+    d.rectangle([x1-60,y0+8,x1-15,y0+26],fill=(230,200,60))
+    txt(d,x1-56,y0+12,"TRUCE DAY 2",F_MICRO,(80,70,30))
+    d.polygon([(x0+50,y0+70),(x0+80,y0+70),(x0+85,y1-5),(x0+45,y1-5)],fill=(120,130,100))
+    d.ellipse([x0+55,y0+72,x0+65,y0+80],fill=(150,160,130))
+    txt(d,x0+10,y0+8,"GAZA",F_MICRO,(60,80,60))
+
+def art_sudan(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(230,210,170),(200,180,140))
+    # table with flags (art area y0..y0+52)
+    d.ellipse([x0+30,y0+30,x1-30,y0+48],fill=(120,90,60))
+    d.rectangle([x0+60,y0+48,x0+85,y0+52],fill=(100,75,50))
+    d.rectangle([x1-85,y0+48,x1-60,y0+52],fill=(100,75,50))
+    # flags
+    d.rectangle([x0+40,y0+8,x0+65,y0+26],fill=(0,0,0))
+    d.rectangle([x0+40,y0+8,x0+65,y0+14],fill=(220,40,40))
+    d.rectangle([x0+40,y0+14,x0+65,y0+20],fill=(255,255,255))
+    d.rectangle([x0+40,y0+20,x0+65,y0+26],fill=(0,120,60))
+    d.rectangle([x1-65,y0+8,x1-40,y0+26],fill=(0,50,150))
+    d.rectangle([x1-65,y0+8,x1-40,y0+14],fill=(255,255,255))
+    d.rectangle([x1-65,y0+14,x1-40,y0+20],fill=(200,40,40))
+    d.rectangle([x1-65,y0+20,x1-40,y0+26],fill=(0,120,60))
+    txt(d,x0+10,y0+8,"NAIROBI TALKS",F_MICRO,(90,70,40))
+
+def art_climate(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(180,220,200),(140,190,170))
+    # globe
+    d.ellipse([x0+80,y0+20,x0+200,y0+140],fill=(100,170,200))
+    d.ellipse([x0+85,y0+25,x0+195,y0+135],outline=(60,120,150),width=2)
+    # continents
+    d.ellipse([x0+100,y0+40,x0+135,y0+65],fill=(80,150,100))
+    d.ellipse([x0+150,y0+55,x0+185,y0+85],fill=(80,150,100))
+    d.ellipse([x0+110,y0+85,x0+145,y0+115],fill=(80,150,100))
+    # thermometer
+    d.rectangle([x1-35,y0+15,x1-25,y1-15],fill=(240,240,240))
+    d.rectangle([x1-33,y0+20,x1-27,y1-20],fill=(220,60,60))
+    d.ellipse([x1-40,y1-25,x1-20,y1-5],fill=(220,60,60))
+    txt(d,x0+10,y0+8,"COP31 · BELEM",F_MICRO,(50,80,60))
+
+def art_bushfire(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(240,180,120),(200,120,80))
+    # hills
+    d.polygon([(x0,y0+70),(x0+60,y0+40),(x0+120,y0+65),(x0+180,y0+35),(x1,y0+60),(x1,y1),(x0,y1)],fill=(180,120,70))
+    # fire
+    for cx,cy in [(x0+50,y0+55),(x0+90,y0+45),(x0+140,y0+40)]:
+        d.polygon([(cx,cy-25),(cx-12,cy+5),(cx+12,cy+5)],fill=(240,120,40))
+        d.polygon([(cx,cy-15),(cx-6,cy+2),(cx+6,cy+2)],fill=(255,200,60))
+    # smoke
+    for cx in (x0+50,x0+90,x0+140):
+        d.ellipse([cx-8,y0+10,cx+8,y0+26],fill=(120,110,100))
+    txt(d,x0+10,y0+8,"NSW BUSHFIRES",F_MICRO,(90,50,30))
+
+def art_quake(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(220,210,190),(190,170,150))
+    # cracked ground
+    d.polygon([(x0,y0+60),(x0+40,y0+55),(x0+80,y0+62),(x0+120,y0+58),(x0+160,y0+64),(x1,y0+60),(x1,y1),(x0,y1)],fill=(170,150,120))
+    d.line([(x0+30,y0+60),(x0+50,y0+80),(x0+70,y0+70),(x0+90,y0+90)],fill=(90,70,50),width=3)
+    d.line([(x0+110,y0+62),(x0+130,y0+85),(x0+150,y0+75)],fill=(90,70,50),width=3)
+    # building
+    d.rectangle([x0+150,y0+20,x0+200,y0+60],fill=(180,170,160))
+    d.rectangle([x0+150,y0+20,x0+200,y0+25],fill=(120,110,100))
+    for i in range(3):
+        d.rectangle([x0+155+i*15,y0+28,x0+165+i*15,y0+38],fill=(100,90,80))
+    d.polygon([(x0+150,y0+60),(x0+175,y0+75),(x0+200,y0+60)],fill=(140,130,120))
+    txt(d,x0+10,y0+8,"MEXICO 7.1",F_MICRO,(80,60,40))
+
+def art_budget(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(230,235,245),(200,210,230))
+    # parliament building (art area y0..y0+52)
+    d.rectangle([x0+20,y0+28,x1-20,y0+48],fill=(180,190,210))
+    d.polygon([(x0+20,y0+28),(x0+(x1-x0)/2+20,y0+8),(x1-20,y0+28)],fill=(150,160,190))
+    for i in range(5):
+        bx=x0+30+i*42
+        d.rectangle([bx,y0+30,bx+25,y0+46],fill=(200,210,225))
+        d.rectangle([bx+2,y0+32,bx+4,y0+44],fill=(160,175,200))
+    # red briefcase
+    d.rectangle([x0+140,y0+34,x0+170,y0+50],fill=(180,40,40))
+    d.rectangle([x0+140,y0+34,x0+170,y0+38],fill=(220,80,80))
+    d.line([(x0+155,y0+34),(x0+155,y0+30)],fill=(120,30,30),width=2)
+    txt(d,x0+10,y0+8,"UK BUDGET",F_MICRO,(60,70,90))
+
+def art_summit2(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(230,240,245),(200,220,235))
+    # two leaders at table (art area y0..y0+52)
+    d.ellipse([x0+40,y0+28,x1-40,y0+46],fill=(160,170,180))
+    d.rectangle([x0+60,y0+46,x0+85,y0+52],fill=(90,100,120))
+    d.rectangle([x1-85,y0+46,x1-60,y0+52],fill=(90,100,120))
+    # figure 1
+    d.ellipse([x0+62,y0+12,x0+83,y0+32],fill=(220,190,160))
+    d.pieslice([x0+60,y0+8,x0+85,y0+30],180,360,fill=(40,40,60))
+    # figure 2
+    d.ellipse([x1-83,y0+12,x1-62,y0+32],fill=(210,180,150))
+    d.pieslice([x1-85,y0+8,x1-60,y0+30],180,360,fill=(60,50,40))
+    # flags
+    d.rectangle([x0+20,y0+4,x0+42,y0+20],fill=(255,255,255))
+    d.rectangle([x0+20,y0+4,x0+42,y0+10],fill=(180,40,40))
+    d.rectangle([x0+20,y0+10,x0+42,y0+14],fill=(255,255,255))
+    d.rectangle([x0+20,y0+14,x0+42,y0+20],fill=(40,40,180))
+    d.rectangle([x1-42,y0+4,x1-20,y0+20],fill=(255,255,255))
+    d.rectangle([x1-42,y0+4,x1-20,y0+10],fill=(220,40,40))
+    d.rectangle([x1-42,y0+10,x1-20,y0+14],fill=(255,255,255))
+    d.rectangle([x1-42,y0+14,x1-20,y0+20],fill=(40,80,40))
+    txt(d,x0+10,y0+8,"SEOUL SUMMIT",F_MICRO,(60,70,90))
+
+def art_mpox(d,x0,y0,x1,y1):
+    vg(d,x0,y0,x1,y1,(220,235,225),(190,215,200))
+    # WHO logo-ish
+    d.ellipse([x0+90,y0+20,x0+190,y0+120],fill=(0,120,180))
+    d.ellipse([x0+100,y0+30,x0+180,y0+110],fill=(240,245,250))
+    txt(d,x0+125,y0+60,"WHO",f("arialbd.ttf",16),(0,120,180))
+    # check mark
+    d.line([(x0+110,y0+95),(x0+130,y0+115),(x0+170,y0+75)],fill=(0,150,80),width=4)
+    # virus fading
+    for cx,cy,r in [(x0+30,y0+30,8),(x0+50,y0+50,6),(x0+210,y0+40,7),(x0+225,y0+65,5)]:
+        d.ellipse([cx-r,cy-r,cx+r,cy+r],fill=(200,220,210))
+    txt(d,x0+10,y0+8,"MPOX ENDED",F_MICRO,(50,80,60))
 
 def draw_world_map(d,x0,y0,x1,y1):
     vg(d,x0,y0,x1,y1,(216,236,248),(184,214,236),n=20)
@@ -405,46 +335,46 @@ def draw_world_map(d,x0,y0,x1,y1):
         d.ellipse([x-8,y-8,x+8,y+8],fill=RED,outline=WHITE,width=2)
         s=str(n); tw=tlen(d,s,F_MICRO)
         txt(d,x-tw/2,y-4,s,F_MICRO,WHITE)
-    txt(d,x0+8,y1-13,"1-11 = the drawn stories Â· positions approximate",F_MICRO,(70,76,90))
+    txt(d,x0+8,y1-13,"1-11 = the drawn stories · positions approximate",F_MICRO,(70,76,90))
 
 # ---------- content: only stories presented as 20 Nov news ----------
 LEADS=[
-  ("ASIA","TRILATERAL","REUTERS Â· BBC","SHENZHEN Â· APEC SUMMIT","DAY TWO IN SHENZHEN",
-   "Leaders extend APEC talks into a second day",
-   "Trade and arms control dominate day two; a joint statement is expected by evening.",
-   art_summit),
-  ("MIDDLE EAST","IRAN WAR","REUTERS Â· AFP","ALI AL SALEM Â· KUWAIT","DAY TWO STRIKES",
-   "Iran fires on US sites in Kuwait again; Bahrain intercepts",
-   "Second night of strikes; Vance vows no 'forever war' as diplomacy stalls.",
-   art_gulf),
-  ("GLOBAL","MARKETS","BLOOMBERG Â· REUTERS","NASDAQ Â· TICKER ANT","DEBUT DAY",
-   "Anthropic debuts on Nasdaq after $83 IPO",
-   "First frontier-AI listing closes up 4.2%; Amazon and Google hold 28.4%.",
-   art_ipo),
+  ("EUROPE","TRADE","REUTERS · BBC","BRUSSELS · EU-INDIA","HISTORIC PACT",
+   "EU and India sign landmark trade deal",
+   "Tariffs on 90% of goods phased out over 7 years; services chapter opens EU market.",
+   art_trade),
+  ("AMERICAS","ELECTION","AP · CNN","HARRISBURG · PA","RECOUNT ORDERED",
+   "Pennsylvania orders full recount of midterms",
+   "Margin under 0.5% triggers statewide recount; results due by 30 Nov.",
+   art_election),
+  ("ASIA","SECURITY","REUTERS · AFP","TAIPEI STRAIT","STANDOFF",
+   "Taiwan Strait standoff as PLA ships cross median line",
+   "Taipei scrambles jets; Washington urges restraint; 12-hour encounter.",
+   art_strait),
 ]
 
 CARDS=[
-  (4,"AMERICAS","MARKETS","FED Â· WSJ","HIKE CONFIRMED",
-   "Fed minutes: December hike is a lock","December move priced at 100%; AI debt flagged.",art_fed),
-  (5,"OCEANIA","CULTURE","GUARDIAN Â· NME","DAY TWO SALES",
-   "GTA VI day-two sales pass 20 million","Review score ties Ocarina's 99; servers hold.",art_game),
-  (6,"GLOBAL","COURT","REUTERS Â· AFP","RULING DUE",
-   "World Court to rule on Rohingya genocide","The Hague reads judgment in The Gambia's case.",art_court),
-  (7,"MIDDLE EAST","GAZA","BBC Â· REUTERS","CEASEFIRE TEST",
-   "Israeli tanks push deeper into central Gaza","Families flee as Hamas calls it a breach.",art_gaza),
-  (8,"EUROPE","UKRAINE WAR","GUARDIAN Â· AFP","REINFORCEMENTS",
-   "France sends more advisers to Ukraine","Officers say mission stays advisory; Moscow protests.",art_france_ukraine),
-  (9,"AFRICA","HEALTH","WHO Â· RFI","5,600 DEAD",
-   "DRC Ebola outbreak still out of control","Bundibugyo vaccine trials start next week.",art_ebola),
-  (10,"AMERICAS","SECURITY","CNN","NETWORK RESTORED",
-   "NSA classified network back after two days","Patch, not cyberattack, hit a Middle East intel hub.",art_nsa),
-  (11,"ASIA","WEATHER","IMD","210,000 EVACUATED",
-   "Cyclone Akvan landfall expected tonight","110 km/h winds forecast; Odisha on alert.",art_cyclone),
+  (4,"MIDDLE EAST","GAZA","BBC · REUTERS","TRUCE HOLDS",
+   "Gaza ceasefire holds on day two","Aid convoys enter; both sides trade blame over violations.",art_ceasefire),
+  (5,"AFRICA","DIPLOMACY","AFP · AL JAZEERA","TALKS OPEN",
+   "Sudan peace talks open in Nairobi","RSF and army envoys meet under AU mediation.",art_sudan),
+  (6,"GLOBAL","CLIMATE","REUTERS · GUARDIAN","COP31 OPENS",
+   "COP31 opens in Belem with 190 nations","Loss-and-damage fund tops agenda; protests outside.",art_climate),
+  (7,"OCEANIA","DISASTER","ABC · REUTERS","FIRES SPREAD",
+   "NSW bushfires force 30,000 to evacuate","Early-season fires; 40 homes lost; heatwave continues.",art_bushfire),
+  (8,"AMERICAS","QUAKE","USGS · AP","7.1 MAGNITUDE",
+   "Magnitude 7.1 quake hits southern Mexico","At least 12 dead; tsunami warning lifted.",art_quake),
+  (9,"EUROPE","BUDGET","BBC · FT","AUTUMN STATEMENT",
+   "UK autumn budget raises taxes, cuts spending","Reeves targets £40bn; markets steady.",art_budget),
+  (10,"ASIA","DIPLOMACY","REUTERS · YONHAP","BILATERAL",
+   "Japan and South Korea hold Seoul summit","First visit in 12 years; security pact signed.",art_summit2),
+  (11,"GLOBAL","HEALTH","WHO · REUTERS","EMERGENCY LIFTED",
+   "WHO lifts mpox global emergency","Cases down 90% since peak; vaccine stockpile remains.",art_mpox),
 ]
 
 BRIEFS=[
-  ("EUROPE","UK: no bombing Ukraine"),
-  ("MIDDLE EAST","IEA: biggest energy threat"),
+  ("EUROPE","Berlin coalition talks stall"),
+  ("MIDDLE EAST","Iran nuclear talks resume"),
   ("GLOBAL","Voyager 1 reply due Fri"),
   ("ASIA","Nvidia halts H200 to China"),
   ("AMERICAS","Medicare premiums rise"),
@@ -476,11 +406,11 @@ d.rectangle([0,0,W,96],fill=NAVY)
 d.rectangle([16,10,100,86],fill=WHITE)
 txt(d,26,14,"NOV",f("arialbd.ttf",12),RED)
 txt(d,26,28,"20",f("timesbd.ttf",34),NAVY)
-txt(d,22,68,"FRI Â· 2026",f("arialbd.ttf",8),NAVY)
+txt(d,22,68,"FRI · 2026",f("arialbd.ttf",8),NAVY)
 txt(d,112,14,"THE DAY IN WORLD NEWS",f("arialbd.ttf",11),GOLD)
 txt(d,108,18,"Friday 20 November 2026",F_TITLE,WHITE)
 txt(d,112,78,"Everything on this page happened, or was first reported, on Friday 20 November 2026.",F_SUB,(206,220,240))
-txt(d,660,14,"11 DRAWN STORIES Â· 24 BRIEFS Â· 7 REGIONS Â· MAP",f("arialbd.ttf",10),GOLD)
+txt(d,660,14,"11 DRAWN STORIES · 24 BRIEFS · 7 REGIONS · MAP",f("arialbd.ttf",10),GOLD)
 rule(d,0,96,W,96,GOLD,3)
 
 # region bar
@@ -505,7 +435,7 @@ for i,(reg,tag,src,venue,banner,head,cap,art) in enumerate(LEADS):
     d.rectangle([x0,292,x1,318],fill=RED if i==1 else NAVY)
     tw=tlen(d,banner,F_BAN)
     txt(d,x0+(LW-tw)/2,298,banner,F_BAN,WHITE)
-    badge(d,x0+5,324,i+1,REGCOL[reg]); txt(d,x0+25,324,reg+" Â· "+tag,F_SM,REGCOL[reg])
+    badge(d,x0+5,324,i+1,REGCOL[reg]); txt(d,x0+25,324,reg+" · "+tag,F_SM,REGCOL[reg])
     sw=tlen(d,src,F_MICRO); txt(d,x1-sw-7,325,src,F_MICRO,GRAY)
     y=340
     for ln in wrap(head,F_HEAD,LW-14,d)[:2]: txt(d,x0+7,y,ln,F_HEAD,NAVY); y+=22
@@ -518,9 +448,9 @@ d.rectangle([16,426,1008,466],fill=(234,238,244),outline=GRAY,width=1)
 txt(d,22,430,"UTC TIMELINE",f("arialbd.ttf",11),NAVY)
 txt(d,22,445,"20 NOV",f("arialbd.ttf",9),GRAY)
 rule(d,150,446,982,446,(146,154,166),2)
-tl=[("00:00",RED,"Gulf strikes"),("06:00",BLUE,"Berlin talks"),
-    ("09:00",PURPLE,"Shenzhen summit"),("13:00",GREEN,"Wall St opens"),
-    ("18:00",ORANGE,"NSA network down"),("23:00",TEAL,"NZ game launch")]
+tl=[("00:00",RED,"Strait standoff"),("06:00",BLUE,"PA recount"),
+    ("09:00",PURPLE,"EU-India pact"),("13:00",GREEN,"Wall St opens"),
+    ("18:00",ORANGE,"NSW fires"),("23:00",TEAL,"COP31 opens")]
 for i,(hh,col,label) in enumerate(tl):
     tx=150+i*166
     d.ellipse([tx-6,440,tx+6,452],fill=col,outline=WHITE,width=2)
@@ -537,7 +467,7 @@ for j,(n,reg,tag,src,banner,head,cap,art) in enumerate(CARDS):
     art(d,x0,y0,x1,y0+52)
     d.rectangle([x0,y0+40,x1,y0+62],fill=NAVY)
     tw=tlen(d,banner,F_MICRO); txt(d,x0+(CW-tw)/2,y0+45,banner,F_MICRO,WHITE)
-    badge(d,x0+5,y0+64,n,REGCOL[reg],11); txt(d,x0+21,y0+64,reg+" Â· "+tag,F_MICRO,REGCOL[reg])
+    badge(d,x0+5,y0+64,n,REGCOL[reg],11); txt(d,x0+21,y0+64,reg+" · "+tag,F_MICRO,REGCOL[reg])
     sw=tlen(d,src,F_MICRO); txt(d,x1-sw-6,y0+65,src,F_MICRO,GRAY)
     y=y0+80
     for ln in wrap(head,F_BIG,CW-14,d)[:2]: txt(d,x0+7,y,ln,F_BIG,NAVY); y+=15
@@ -547,10 +477,9 @@ for j,(n,reg,tag,src,banner,head,cap,art) in enumerate(CARDS):
 
 # day in numbers
 d.rectangle([16,756,1008,802],fill=(238,241,246),outline=GRAY,width=1)
-txt(d,24,761,"THE DAY IN NUMBERS Â· 20 NOV",f("arialbd.ttf",9),NAVY)
-stats=[(228,"$94bn","ANTHROPIC IPO VALUATION"),(398,"28.4%","AMAZON + GOOGLE STAKE"),
-       (568,"210,000","EVACUATED AHEAD OF AKVAN"),(744,"5,600","DRC EBOLA DEAD"),
-       (886,"24,418","NASDAQ CLOSE +0.37%")]
+txt(d,24,761,"THE DAY IN NUMBERS · 20 NOV",f("arialbd.ttf",9),NAVY)
+stats=[(228,"90%","TARIFFS CUT"),(398,"30,000","EVACUATED NSW"),(568,"12","DEAD IN QUAKE"),
+       (744,"£40bn","UK TAX RISE"),(886,"190","NATIONS AT COP31")]
 for x,big,lab in stats:
     txt(d,x,760,big,F_STAT,RED)
     txt(d,x,789,lab,F_MICRO,(80,86,100))
@@ -558,20 +487,20 @@ for x,big,lab in stats:
 # map + briefs
 d.rectangle([16,808,1008,828],fill=NAVY)
 txt(d,24,812,"WHERE IT HAPPENED  /  ALSO ON FRIDAY",f("arialbd.ttf",10),GOLD)
-txt(d,700,812,"24 MORE STORIES Â· 20 NOV 2026",F_MICRO,(206,220,240))
+txt(d,700,812,"24 MORE STORIES · 20 NOV 2026",F_MICRO,(206,220,240))
 draw_world_map(d,16,832,306,970)
 for k,(reg,brief) in enumerate(BRIEFS[:24]):
     col=k//8; row=k%8
     x=322+col*230; y=832+row*17
     d.ellipse([x,y+1,x+6,y+7],fill=REGCOL[reg])
-    s=f"{k+1:02d} Â· "+brief
+    s=f"{k+1:02d} · "+brief
     txt(d,x+11,y,one_line(s,F_BRIEF,210,d),F_BRIEF,INK)
 
 # date check
 d.rectangle([16,974,1008,1000],fill=(250,236,236),outline=RED,width=1)
 txt(d,24,977,"DATE CHECK",f("arialbd.ttf",10),RED)
-txt(d,118,976,"NOT ON THIS PAGE AS NEWS (first reported Thu 19 Nov): Trump's red-carpet welcome; the US strike on Qeshm island;",F_TINY,(110,40,40))
-txt(d,118,988,"the Kerch bridge span; Berlin security guarantees. Saturday's cyclone landfall is a forecast, not a 20 Nov event.",F_TINY,(110,40,40))
+txt(d,118,976,"NOT ON THIS PAGE AS NEWS (first reported Thu 19 Nov): APEC day-one deals; first Iran strike on Kuwait;",F_TINY,(110,40,40))
+txt(d,118,988,"Anthropic IPO pricing; Berlin security guarantees. Saturday's quake aftershocks are a forecast.",F_TINY,(110,40,40))
 
 # footer
 d.rectangle([0,1000,W,H],fill=NAVY)
