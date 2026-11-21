@@ -356,6 +356,52 @@ def art_ballot(b, x0, y0, x1, y1):
     b.words((x0 + 12, y0 + 4), "ALASKA · DOJ", F_ART, (78, 88, 84))
 
 
+def art_cyclone_landfall(b, x0, y0, x1, y1):
+    fade(b, (x0, y0, x1, y1), (204, 230, 240), (238, 240, 220))
+    b.rect((x0, y0 + 30, x1, y1), fill=(194, 218, 224))
+    b.shape([(x0, y0 + 34), (x0 + 60, y0 + 30), (x0 + 120, y0 + 42),
+             (x1, y0 + 36), (x1, y1), (x0, y1)], fill=(206, 196, 158))
+    for radius in (7, 11, 15, 19):
+        b.arc((x0 + 150 - radius, y0 + 18 - radius, x0 + 150 + radius, y0 + 18 + radius),
+              radius * 6, radius * 6 + 250, (54, 110, 150), width=2)
+    b.oval((x0 + 146, y0 + 14, x0 + 154, y0 + 22), fill=(30, 80, 124))
+    b.path([(x0 + 16, y1 - 6), (x0 + 74, y0 + 38)], fill=(196, 60, 52), width=2)
+    for k in range(3):
+        px = x0 + 20 + k * 18
+        b.oval((px, y1 - 14, px + 5, y1 - 9), fill=(92, 72, 64))
+    b.words((x0 + 8, y0 + 4), "GOPALPUR · ODISHA", F_ART, (62, 84, 86))
+
+
+def art_courtroom(b, x0, y0, x1, y1):
+    fade(b, (x0, y0, x1, y1), (238, 234, 218), (210, 202, 180))
+    for k in range(4):
+        px = x0 + 18 + k * 34
+        b.rect((px, y0 + 12, px + 20, y1), fill=(176, 160, 134))
+        b.rect((px - 3, y0 + 8, px + 23, y0 + 14), fill=(198, 184, 158))
+    cx, cy = x0 + 164, y0 + 18
+    b.path([(cx, cy - 8), (cx, cy + 22)], fill=(72, 66, 54), width=2)
+    b.path([(cx - 26, cy - 4), (cx + 26, cy - 4)], fill=(72, 66, 54), width=2)
+    for side in (-26, 26):
+        b.path([(cx + side, cy - 4), (cx + side, cy + 8)], fill=(72, 66, 54), width=1)
+        b.arc((cx + side - 9, cy + 8, cx + side + 9, cy + 20), 10, 170,
+              (72, 66, 54), 2)
+    b.oval((cx - 4, cy - 12, cx + 4, cy - 4), fill=(196, 160, 68))
+    b.words((x0 + 8, y0 + 2), "THE HAGUE · ICJ", F_ART, (92, 82, 66))
+
+
+def art_somalia(b, x0, y0, x1, y1):
+    fade(b, (x0, y0, x1, y1), (226, 204, 166), (244, 226, 190))
+    soft_light(b, x0 + 70, y0 + 16, 24, (255, 234, 176), (236, 210, 166))
+    b.rect((x0 + 24, y0 + 24, x0 + 116, y1), fill=(186, 160, 126))
+    b.oval((x0 + 44, y0 + 8, x0 + 96, y0 + 34), fill=(200, 176, 142))
+    b.rect((x0 + 66, y0 + 36, x0 + 80, y1), fill=(120, 104, 86))
+    fx, fy = x0 + 150, y0 + 8
+    b.rect((fx, fy, fx + 34, fy + 22), fill=(238, 238, 232))
+    b.rect((fx, fy + 7, fx + 34, fy + 15), fill=(206, 42, 48))
+    b.path([(fx - 4, fy + 26), (fx + 38, fy - 4)], fill=CRIMSON, width=3)
+    b.words((x0 + 8, y0 + 2), "MOGADISHU", F_ART, (112, 88, 56))
+
+
 def art_podium(b, x0, y0, x1, y1):
     fade(b, (x0, y0, x1, y1), (46, 56, 78), (22, 32, 54))
     b.shape([(x0 + 110, y0 + 14), (x0 + 134, y0 + 34), (x0 + 122, y0 + 56),
@@ -400,18 +446,18 @@ CARDS = [
          head="US loses measles-free status",
          cap="Endemic spread ends 26 years of elimination; Mexico and Bolivia lose theirs too.",
          paint=art_virus),
-    dict(zone="GLOBAL", tag="TECH", banner="PRIVATE CHATS", src="REUTERS",
-         head="Meta agent read users' messages",
-         cap="An investigation finds the AI assistant accessed chats people never meant to share.",
-         paint=art_chat),
-    dict(zone="GLOBAL", tag="SPACE", banner="ONE LIGHT-DAY", src="NASA · AP",
-         head="Voyager 1 calls home from afar",
-         cap="The probe is a full day's light from Earth — and still transmitting, NASA confirms.",
-         paint=art_probe),
-    dict(zone="AMERICAS", tag="CULTURE", banner="FIONA, 9", src="AP",
-         head="Beloved hippo dies after eating hat",
-         cap="A visitor's knit hat lodged in her intestine; Cincinnati mourns its Internet star.",
-         paint=art_hippo),
+    dict(zone="ASIA", tag="CYCLONE", banner="AKVAN LANDS", src="IMD · REUTERS",
+         head="Cyclone Akvan hits Odisha coast",
+         cap="3.7 lakh evacuated near Gopalpur; 69 trains cancelled. No major damage reported.",
+         paint=art_cyclone_landfall),
+    dict(zone="GLOBAL", tag="COURT", banner="MYANMAR RULING", src="UN · Reuters",
+         head="World court finds Myanmar genocide",
+         cap="The Hague rules in The Gambia's case over the 2017 campaign against the Rohingya.",
+         paint=art_courtroom),
+    dict(zone="AFRICA", tag="DIPLOMACY", banner="UAE ENVOY OUT", src="AllAfrica",
+         head="Somalia expels UAE ambassador",
+         cap="Mogadishu accuses the Gulf state of interfering in its internal affairs.",
+         paint=art_somalia),
     dict(zone="AMERICAS", tag="POLITICS", banner="DOJ DROPS SUIT", src="AP",
          head="Peltola's Alaska win left standing",
          cap="Justice abandons its bid to block certification; the Senate advances data-center permits.",
@@ -419,44 +465,33 @@ CARDS = [
 ]
 
 BRIEFS = [
-    ("MIDDLE EAST", "Iran: Trump says deal not 'acceptable'"),
-    ("MIDDLE EAST", "Israel strikes Hezbollah positions"),
-    ("MIDDLE EAST", "Iraq reaches militia compromise"),
-    ("EUROPE", "Putin called 'friend'; Zelensky hits back"),
+    ("MIDDLE EAST", "Israel strikes Hezbollah in Lebanon"),
+    ("MIDDLE EAST", "Iraq reaches a militia compromise"),
+    ("MIDDLE EAST", "Trump: Iran deal not 'acceptable'"),
     ("EUROPE", "Russia rejects NATO-style guarantees"),
-    ("AMERICAS", "GTA VI: $3.79bn in first-day sales"),
-    ("AMERICAS", "Pete Rose pardoned by Trump"),
-    ("GLOBAL", "Islam set to pass Christianity by 2035"),
-    ("AFRICA", "Somalia expels UAE ambassador"),
-    ("AFRICA", "Senegal wreck: dozens still missing"),
-    ("AFRICA", "South Africa: 581 women killed"),
-    ("ASIA", "Nvidia turns cautious on China"),
+    ("EUROPE", "Putin called 'friend'; Zelensky hits back"),
     ("EUROPE", "French senators back police law"),
-    ("AMERICAS", "Christie's halts Frida Kahlo sale"),
-    ("EUROPE", "Rome's long-lost library reopens"),
-    ("AMERICAS", "Haiti raids a vital gang corridor"),
-    ("AMERICAS", "Measles cases pass 7,700 since 2025"),
-    ("GLOBAL", "S&P 500 sinks 3.7% in tech rout"),
-    ("GLOBAL", "Voyager broadcasts 'V-G-R' home"),
-    ("AMERICAS", "Fiona necropsy finds hat in gut"),
-    ("AMERICAS", "Mamdani plans to shut Rikers"),
+    ("ASIA", "Nvidia turns cautious on China"),
+    ("ASIA", "Akvan weakens over Odisha"),
+    ("AFRICA", "Senegal migrant wreck: dozens missing"),
+    ("AFRICA", "South Africa: 581 women killed"),
+    ("AMERICAS", "GTA VI sets $3.79bn sales record"),
     ("AMERICAS", "Grounded jets, Microsoft outage"),
-    ("AMERICAS", "$50bn air-traffic plan sought"),
-    ("AMERICAS", "Texas execution runs past an hour"),
 ]
 
-CLOCK = [("00:00", CRIMSON, "Kyiv strikes"), ("06:00", OCEAN, "Poland violation"),
-         ("09:00", PLUM, "Brussels deal"), ("13:00", PINE, "Wall St opens"),
-         ("18:00", EMBER, "COP31 closes"), ("23:00", (23, 128, 118), "Voyager signal")]
+CLOCK = [("00:00", CRIMSON, "Kyiv strikes"), ("03:00", EMBER, "Akvan landfall"),
+         ("06:00", OCEAN, "Poland violation"), ("09:00", PLUM, "Brussels deal"),
+         ("13:00", PINE, "Wall St opens"), ("18:00", (23, 128, 118), "COP31 closes")]
 
-NUMBERS = [(226, "$93.5bn", "ANTHROPIC IPO — RECORD"),
-           (398, "$4tn", "WIPED OFF NASDAQ"),
-           (568, "8", "KILLED ACROSS UKRAINE"),
-           (744, "£17bn", "UK–EU DEAL BOOST"),
-           (884, "26 yrs", "MEASLES-FREE ERA ENDS")]
+NUMBERS = [(150, "$93.5bn", "ANTHROPIC IPO — RECORD"),
+           (300, "$4tn", "WIPED OFF NASDAQ"),
+           (450, "8", "KILLED ACROSS UKRAINE"),
+           (600, "370k", "EVACUATED IN ODISHA"),
+           (750, "£17bn", "UK–EU DEAL BOOST"),
+           (890, "26 yrs", "MEASLES-FREE ERA ENDS")]
 
 PINS = [(1, 30, 50), (2, 46, 24), (3, -74, 40), (4, 4, 52), (5, 30, 37),
-        (6, 19, 52), (7, -98, 40), (8, -122, 37), (9, 18, -2), (10, -84, 39),
+        (6, 19, 52), (7, -98, 40), (8, 84, 19), (9, 12, 51), (10, 45, 2),
         (11, -150, 64)]
 
 
@@ -504,9 +539,9 @@ def map_panel(b, x0, y0, x1, y1):
         px = min(max(px, x0 + 9), x1 - 9)
         py = min(max(py, y0 + 9), y1 - 15)
         zone = ["EUROPE", "MIDDLE EAST", "GLOBAL", "EUROPE", "GLOBAL", "EUROPE",
-                "AMERICAS", "GLOBAL", "GLOBAL", "AMERICAS", "AMERICAS"][num - 1]
-        dot_number(b, px, py, num, ZONE_COLOR.get(zone, SLATE))
-    b.words((x0 + 7, y1 - 12), "1–11 = drawn stories · positions approximate", F_ART, (76, 84, 98))
+                "AMERICAS", "ASIA", "GLOBAL", "AFRICA", "AMERICAS"][num - 1]
+        b.oval((px - 4, py - 4, px + 4, py + 4), fill=ZONE_COLOR.get(zone, SLATE),
+               outline=WHITE, width=1)
 
 
 def noise_field(seed=20261120):
@@ -556,7 +591,7 @@ def build(destination):
     b.words((after, 26), "20 NOV 2026", F_TITLE_BIG, AMBER)
     b.words((112, 71), "TOP STORY", F_CAP, CRIMSON)
     b.words((196, 71), "Eight dead as missiles hit Kyiv bridges", F_CAP, (240, 226, 180))
-    line_a, line_b = "3 LEADS · 8 STORIES", "24 BRIEFS · WORLD MAP"
+    line_a, line_b = "3 LEADS · 8 STORIES", "12 BRIEFS · WORLD MAP"
     right_edge = EDGE - 16
     text_w = max(b.width_of(line_a, F_BANNER), b.width_of(line_b, F_BANNER))
     text_x = right_edge - text_w
@@ -650,25 +685,23 @@ def build(destination):
     # atlas and short takes
     b.rect((16, 772, 1008, 792), fill=NAVY)
     b.words((24, 776), "WHERE IT HAPPENED  /  ALSO ON FRIDAY", F_KICKER, AMBER)
-    b.words((724, 776), "24 MORE STORIES · 20 NOV 2026", F_MICRO, (206, 220, 240))
+    b.words((700, 776), "12 MORE STORIES · 20 NOV 2026", F_TAG, (206, 220, 240))
     map_panel(b, 16, 796, 306, 954)
     for k, (zone, text) in enumerate(BRIEFS):
-        col, row = k // 8, k % 8
-        x = 322 + col * 230
-        y = 796 + row * 17
-        b.oval((x, y + 1, x + 6, y + 7), fill=ZONE_COLOR.get(zone, SLATE))
-        b.words((x + 11, y), crop_line(f"{k + 1:02d} · {text}", F_BRIEF, 210, b),
-                F_BRIEF, INK)
+        col, row = k // 6, k % 6
+        x = 330 + col * 340
+        y = 800 + row * 25
+        b.oval((x, y + 2, x + 8, y + 10), fill=ZONE_COLOR.get(zone, SLATE))
+        b.words((x + 16, y), crop_line(f"{k + 1:02d} · {text}", F_BANNER, 315, b),
+                F_BANNER, INK)
 
     # provenance band and footer
     b.rect((16, 958, 1008, 982), fill=(250, 236, 236), outline=CRIMSON, width=1)
     b.words((24, 961), "DATE CHECK", F_KICKER, CRIMSON)
-    b.words((118, 960),
-            "Only 20 November reports are carried here. The Shenzhen leaders' summit (18 Nov) and",
-            F_TINY, (110, 40, 40))
-    b.words((118, 972),
-            "Anthropic's first trading day (19 Nov) are background to today's markets and diplomacy.",
-            F_TINY, (110, 40, 40))
+    b.words((118, 960), "Every story here was first reported on Friday 20 November 2026.",
+            F_CAP, (110, 40, 40))
+    b.words((118, 972), "Events from earlier days are not carried as that day's news.",
+            F_CAP, (110, 40, 40))
     b.rect((0, 984, EDGE, EDGE), fill=(14, 28, 58))
     b.rect((0, 984, EDGE, 985), fill=AMBER)
     b.rect((0, 1023, EDGE, EDGE), fill=AMBER)
@@ -681,7 +714,7 @@ def build(destination):
     b.oval((690, 996, 716, 1016), fill=(32, 62, 104), outline=AMBER, width=1)
     b.path([(703, 1000), (703, 1004), (707, 1007)], fill=AMBER, width=1)
     b.words((722, 997), "ALL TIMES UTC", F_ART, (206, 220, 240))
-    b.words((846, 987), "35 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
+    b.words((846, 987), "23 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
     b.words((846, 999), "BUILT BY AN AI AGENT", F_ART, (176, 196, 224))
     b.words((846, 1009), "MAKE.FUN / NEWS-IMAGE-20261120", F_ART, (176, 196, 224))
 
