@@ -60,6 +60,7 @@ ZONE_COLOR = {
 
 class Brush:
     def __init__(self, image):
+        self.image = image
         self.handle = ImageDraw.Draw(image)
 
     @staticmethod
@@ -147,6 +148,14 @@ def crop_line(text, fnt, room, brush):
 def dot_number(brush, x, y, number, color):
     brush.oval((x - 7, y - 7, x + 7, y + 7), fill=color, outline=WHITE, width=1)
     brush.centred(x, y - 5, str(number), F_ART, WHITE)
+
+
+def art_tile(host, painter, box):
+    """Paint an illustration on its own tile, so nothing spills past the frame."""
+    x0, y0, x1, y1 = box
+    tile = Image.new("RGB", ((x1 - x0) * SCALE, (y1 - y0) * SCALE))
+    painter(Brush(tile), 0, 0, x1 - x0, y1 - y0)
+    host.image.paste(tile, (int(x0 * SCALE), int(y0 * SCALE)))
 
 
 def little_globe(brush, cx, cy, radius, tone):
@@ -530,13 +539,15 @@ def build(destination):
     # masthead
     fade(b, (0, 0, EDGE, 96), (12, 26, 58), (28, 52, 94), 18)
     soft_light(b, 906, 48, 40, (58, 92, 142), (16, 32, 64))
+    b.rect((0, 0, EDGE, 2), fill=AMBER)
     b.rect((15, 10, 100, 86), fill=WHITE)
     b.rect((15, 10, 100, 27), fill=CRIMSON)
     b.centred(57, 12, "FRIDAY", F_ART, WHITE)
     b.centred(57, 30, "20", F_NAVY_BIG, NAVY)
     b.centred(57, 70, "NOV 2026", F_ART, NAVY)
-    b.words((112, 6), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
-    b.words((108, 24), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
+    b.words((112, 5), "• THE WORLD IN ONE PICTURE •", F_KICKER, AMBER)
+    b.path([(112, 19), (652, 19)], fill=AMBER, width=1)
+    b.words((108, 26), "WORLD NEWS TODAY", F_NAVY_BIG, WHITE)
     b.words((112, 66), "Friday 20 November 2026 — the day, in one image", F_NAVY_SUB,
             (232, 212, 140))
     little_globe(b, 706, 48, 24, AMBER)
@@ -557,50 +568,50 @@ def build(destination):
         b.centred(cursor + wide / 2, 107, caption, F_TAG, WHITE)
         cursor += wide + 3
 
+    # running order, moved above the reports
+    b.rect((16, 126, 1008, 166), fill=(234, 238, 244), outline=SLATE, width=1)
+    b.words((22, 128), "UTC TIMELINE", F_KICKER, NAVY)
+    b.words((22, 145), "20 NOV", F_ART, SLATE)
+    b.path([(150, 148), (982, 148)], fill=(146, 154, 166), width=2)
+    for i, (hour, tone, label) in enumerate(CLOCK):
+        tx = 150 + i * 166
+        b.oval((tx - 6, 142, tx + 6, 154), fill=tone, outline=WHITE, width=1)
+        b.centred(tx, 129, hour, F_TAG, NAVY)
+        b.centred(tx, 155, label, F_MICRO, (56, 62, 76))
+
     # three front-page leads
     lead_width = 325
     for i, story in enumerate(LEADS):
         left = 16 + i * (lead_width + 8)
         right = left + lead_width
-        story["paint"](b, left, 126, right, 264)
-        b.rect((left, 264, right, 288), fill=NAVY)
-        b.centred((left + right) / 2, 270, story["venue"], F_BANNER, AMBER)
-        b.rect((left, 288, right, 314), fill=CRIMSON if i == 0 else NAVY)
-        b.centred((left + right) / 2, 294, story["banner"], F_BANNER, WHITE)
-        dot_number(b, left + 12, 330, i + 1, ZONE_COLOR[story["zone"]])
-        b.words((left + 28, 326), story["zone"] + " · " + story["tag"], F_TAG,
+        art_tile(b, story["paint"], (left, 172, right, 284))
+        b.rect((left, 284, right, 306), fill=NAVY)
+        b.centred((left + right) / 2, 290, story["venue"], F_BANNER, AMBER)
+        b.rect((left, 306, right, 328), fill=CRIMSON if i == 0 else NAVY)
+        b.centred((left + right) / 2, 312, story["banner"], F_BANNER, WHITE)
+        dot_number(b, left + 12, 344, i + 1, ZONE_COLOR[story["zone"]])
+        b.words((left + 28, 340), story["zone"] + " · " + story["tag"], F_TAG,
                 ZONE_COLOR[story["zone"]])
         source_w = b.width_of(story["src"], F_MICRO)
-        b.words((right - source_w - 6, 328), story["src"], F_MICRO, SLATE)
-        yy = 344
+        b.words((right - source_w - 6, 342), story["src"], F_MICRO, SLATE)
+        yy = 356
         for line in wrap(story["head"], F_HEAD, lead_width - 14, b)[:2]:
             b.words((left + 7, yy), line, F_HEAD, NAVY)
-            yy += 23
-        yy += 6
+            yy += 21
+        yy += 4
         for line in wrap(story["cap"], F_CAP, lead_width - 14, b)[:2]:
             b.words((left + 7, yy), line, F_CAP, (72, 78, 92))
-            yy += 14
-        b.rect((left, 126, right, 420), outline=SLATE, width=1)
-
-    # running order through the UTC day
-    b.rect((16, 426, 1008, 466), fill=(234, 238, 244), outline=SLATE, width=1)
-    b.words((22, 430), "UTC TIMELINE", F_KICKER, NAVY)
-    b.words((22, 447), "20 NOV", F_ART, SLATE)
-    b.path([(150, 446), (982, 446)], fill=(146, 154, 166), width=2)
-    for i, (hour, tone, label) in enumerate(CLOCK):
-        tx = 150 + i * 166
-        b.oval((tx - 6, 440, tx + 6, 452), fill=tone, outline=WHITE, width=1)
-        b.centred(tx, 429, hour, F_TAG, NAVY)
-        b.centred(tx, 454, label, F_MICRO, (56, 62, 76))
+            yy += 13
+        b.rect((left, 172, right, 430), outline=SLATE, width=1)
 
     # eight illustrated reports
     cell_w, cell_h = 242, 138
     for j, card in enumerate(CARDS):
         col, row = j % 4, j // 4
         left = 16 + col * (cell_w + 8)
-        top = 470 + row * (cell_h + 6)
+        top = 436 + row * (cell_h + 6)
         right, bottom = left + cell_w, top + cell_h
-        card["paint"](b, left, top, right, top + 50)
+        art_tile(b, card["paint"], (left, top, right, top + 50))
         b.rect((left, top + 40, right, top + 62), fill=NAVY)
         b.centred((left + right) / 2, top + 45, card["banner"], F_MICRO, WHITE)
         dot_number(b, left + 6, top + 64, j + 4, ZONE_COLOR[card["zone"]])
@@ -619,47 +630,49 @@ def build(destination):
         b.rect((left, top, right, bottom), outline=SLATE, width=1)
 
     # day in figures
-    b.rect((16, 756, 1008, 802), fill=(238, 241, 246), outline=SLATE, width=1)
-    b.words((24, 760), "THE DAY IN FIGURES · 20 NOV", F_ART, NAVY)
+    b.rect((16, 722, 1008, 768), fill=(238, 241, 246), outline=SLATE, width=1)
+    b.words((24, 725), "THE DAY IN FIGURES · 20 NOV", F_ART, NAVY)
     for x, big, label in NUMBERS:
-        b.words((x, 759), big, F_STAT, CRIMSON)
-        b.words((x, 788), label, F_MICRO, (80, 86, 100))
+        b.words((x, 725), big, F_STAT, CRIMSON)
+        b.words((x, 754), label, F_MICRO, (80, 86, 100))
 
     # atlas and short takes
-    b.rect((16, 808, 1008, 828), fill=NAVY)
-    b.words((24, 812), "WHERE IT HAPPENED  /  ALSO ON FRIDAY", F_KICKER, AMBER)
-    b.words((724, 812), "24 MORE STORIES · 20 NOV 2026", F_MICRO, (206, 220, 240))
-    map_panel(b, 16, 832, 306, 970)
+    b.rect((16, 772, 1008, 792), fill=NAVY)
+    b.words((24, 776), "WHERE IT HAPPENED  /  ALSO ON FRIDAY", F_KICKER, AMBER)
+    b.words((724, 776), "24 MORE STORIES · 20 NOV 2026", F_MICRO, (206, 220, 240))
+    map_panel(b, 16, 796, 306, 954)
     for k, (zone, text) in enumerate(BRIEFS):
         col, row = k // 8, k % 8
         x = 322 + col * 230
-        y = 832 + row * 17
+        y = 796 + row * 17
         b.oval((x, y + 1, x + 6, y + 7), fill=ZONE_COLOR.get(zone, SLATE))
         b.words((x + 11, y), crop_line(f"{k + 1:02d} · {text}", F_BRIEF, 210, b),
                 F_BRIEF, INK)
 
     # provenance band and footer
-    b.rect((16, 974, 1008, 1000), fill=(250, 236, 236), outline=CRIMSON, width=1)
-    b.words((24, 977), "DATE CHECK", F_KICKER, CRIMSON)
-    b.words((118, 976),
+    b.rect((16, 958, 1008, 982), fill=(250, 236, 236), outline=CRIMSON, width=1)
+    b.words((24, 961), "DATE CHECK", F_KICKER, CRIMSON)
+    b.words((118, 960),
             "Only 20 November reports are carried here. The Shenzhen leaders' summit (18 Nov) and",
             F_TINY, (110, 40, 40))
-    b.words((118, 988),
+    b.words((118, 972),
             "Anthropic's first trading day (19 Nov) are background to today's markets and diplomacy.",
             F_TINY, (110, 40, 40))
-    b.rect((0, 1000, EDGE, EDGE), fill=(14, 28, 58))
-    b.rect((0, 1000, EDGE, 1001), fill=AMBER)
-    b.rect((16, 1005, 34, 1021), fill=CRIMSON)
-    b.centred(25, 1007, "20", F_ART, WHITE)
-    b.words((42, 1004), "THE DAY IN WORLD NEWS · 20 NOVEMBER 2026", F_ART, (232, 214, 150))
-    b.words((42, 1015), "REUTERS · AP · BBC · UN · NPR · GUARDIAN", F_ART, (176, 196, 224))
-    little_globe(b, 560, 1012, 8, AMBER)
-    b.words((576, 1007), "7 ZONES", F_ART, (206, 220, 240))
-    b.oval((690, 1006, 716, 1020), fill=(32, 62, 104), outline=AMBER, width=1)
-    b.path([(703, 1009), (703, 1013), (707, 1015)], fill=AMBER, width=1)
-    b.words((722, 1007), "ALL TIMES UTC", F_ART, (206, 220, 240))
-    b.words((846, 1004), "35 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
-    b.words((846, 1015), "BUILT BY AN AI AGENT", F_ART, (176, 196, 224))
+    b.rect((0, 984, EDGE, EDGE), fill=(14, 28, 58))
+    b.rect((0, 984, EDGE, 986), fill=AMBER)
+    b.rect((0, 1022, EDGE, EDGE), fill=AMBER)
+    b.rect((16, 989, 34, 1017), fill=CRIMSON)
+    b.centred(25, 997, "20", F_ART, WHITE)
+    b.words((42, 987), "THE DAY IN WORLD NEWS · 20 NOVEMBER 2026", F_ART, (232, 214, 150))
+    b.words((42, 999), "SOURCES: REUTERS · AP · BBC · UN · NPR · GUARDIAN", F_ART, (176, 196, 224))
+    little_globe(b, 560, 1002, 7, AMBER)
+    b.words((578, 997), "7 ZONES", F_ART, (206, 220, 240))
+    b.oval((690, 996, 716, 1016), fill=(32, 62, 104), outline=AMBER, width=1)
+    b.path([(703, 1000), (703, 1004), (707, 1007)], fill=AMBER, width=1)
+    b.words((722, 997), "ALL TIMES UTC", F_ART, (206, 220, 240))
+    b.words((846, 987), "35 STORIES · ONE IMAGE", F_ART, (232, 214, 150))
+    b.words((846, 999), "BUILT BY AN AI AGENT", F_ART, (176, 196, 224))
+    b.words((846, 1009), "MAKE.FUN / NEWS-IMAGE-20261120", F_ART, (176, 196, 224))
 
     flat = page.resize((EDGE, EDGE), Image.LANCZOS)
     texture = noise_field()
