@@ -369,15 +369,15 @@ def art_podium(b, x0, y0, x1, y1):
 
 LEADS = [
     dict(zone="EUROPE", tag="UKRAINE", src="REUTERS · AP", venue="KYIV · DNIPRO RIVER",
-         banner="BRIDGES HIT", head="Missiles strike Kyiv; nine dead",
+         banner="BRIDGES HIT", head="Nine dead as missiles hit Kyiv bridges",
          cap="Three Dnipro crossings hit. Two missiles and a drone land in Poland — NATO calls it a violation.",
          paint=art_bridges),
     dict(zone="MIDDLE EAST", tag="HOUTHI", src="REUTERS · AP", venue="RIYADH · SAUDI ARABIA",
-         banner="TOWER STRUCK", head="Houthi strike hits Riyadh tower",
+         banner="TOWER STRUCK", head="Houthi strike hits Riyadh's tallest tower",
          cap="The kingdom's tallest tower is hit as senators weigh Trump's nuclear pact. Iran talks stall.",
          paint=art_tower),
     dict(zone="GLOBAL", tag="MARKETS", src="REUTERS · CNBC", venue="WALL STREET · NASDAQ",
-         banner="AI SELLOFF", head="Four trillion wiped from tech",
+         banner="AI SELLOFF", head="AI rout wipes $4tn off Nasdaq",
          cap="Anthropic's record $93.5bn IPO cannot halt the rout; Nasdaq loses all its 2026 gains.",
          paint=art_chart),
 ]
