@@ -706,9 +706,8 @@ def build(destination):
     # provenance band and footer
     b.rect((16, 958, 1008, 982), fill=(250, 236, 236), outline=CRIMSON, width=1)
     b.words((24, 961), "DATE CHECK", F_KICKER, CRIMSON)
-    b.words((118, 960), "Every story here was first reported on Friday 20 November 2026.",
-            F_CAP, (110, 40, 40))
-    b.words((118, 972), "Events from earlier days are not carried as that day's news.",
+    b.words((118, 963),
+            "Every story here was first reported on Friday 20 November 2026; earlier events are not carried as that day's news.",
             F_CAP, (110, 40, 40))
     b.rect((0, 984, EDGE, EDGE), fill=(14, 28, 58))
     b.rect((0, 984, EDGE, 985), fill=AMBER)
